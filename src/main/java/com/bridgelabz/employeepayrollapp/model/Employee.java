@@ -1,7 +1,12 @@
 package com.bridgelabz.employeepayrollapp.model;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.time.LocalDate;
-
+@Entity
 public class Employee {
+    @Id
+    @GeneratedValue
     private String firstName;
     private String lastName;
     private String profilePic;
