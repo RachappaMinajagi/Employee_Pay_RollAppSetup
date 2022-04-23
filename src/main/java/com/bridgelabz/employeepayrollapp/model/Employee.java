@@ -22,9 +22,14 @@ public class Employee {
     private LocalDate date;
     private String notes;
 
-    public Employee(Integer id, Employee employee) {
+
+    public Employee() {
+
         super();
-        this.id = id;
+    }
+
+    public Employee(EmployeeDTO employee) {
+
         this.firstName = employee.getFirstName();
         this.lastName = employee.getLastName();
         this.profilePic = employee.getProfilePic();
@@ -32,23 +37,6 @@ public class Employee {
         this.salary = employee.getSalary();
         this.date = employee.getDate();
         this.notes = employee.getNotes();
-    }
-
-    public Employee() {
-
-        super();
-    }
-
-    public Employee(Employee employee) {
-        super();
-        this.id = employee.id;
-        this.firstName = employee.firstName;
-        this.lastName = employee.lastName;
-        this.profilePic = employee.profilePic;
-        this.department = employee.department;
-        this.salary = employee.salary;
-        this.date = employee.date;
-        this.notes = employee.notes;
     }
 
     public Employee(Integer id, EmployeeDTO employeeDTO) {
