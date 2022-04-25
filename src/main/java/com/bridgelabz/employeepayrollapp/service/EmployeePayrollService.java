@@ -19,49 +19,36 @@ public class EmployeePayrollService implements IEmployeePayrollService {
     EmployeePayrollRepository repository;
 
     public String getMessage(String name) {
-        return "Welcome To Employee Program " + name;
+        return "Welcome " + name;
     }
 
-    public String postMessage(EmployeeDTO employee) {
-        return "Hello Employee " + employee.getFirstName() + "" + employee.getLastName() + "!";
+    public String postMessage(EmployeeDTO employeeDTO) {
+        return "Hello " + employeeDTO.getFirstName() + "" + employeeDTO.getLastName() + "!";
     }
 
     public String putMessage(String name) {
-        return "Hey Dude , " + name;
+        return "How are you, " + name;
     }
 
     public String getWelcome() {
-        return "Welcome to Employee Payroll App.....!";
+        return "Welcome to Employee Payroll !!!";
     }
 
-    /**
-     * create method postDataToRepo()
-     * @param : represents employee id
-     * @return :newEmployee for same id
-     */
-    @Override
-    public Employee postDataToRepo(EmployeeDTO employee) {
-        Employee newEmployee = new Employee(employee);
+    public Employee postDataToRepo(EmployeeDTO employeeDTO) {
+        Employee newEmployee = new Employee(employeeDTO);
         repository.save(newEmployee);
         return newEmployee;
     }
 
-    @Override
     public List<Employee> getAllData() {
         List<Employee> list = repository.findAll();
         return list;
     }
 
-    @Override
     public Optional<Employee> getDataById(Integer id) {
-        Optional<Employee> newEmployee = repository.findById(id);
-        return newEmployee;
+        Employee newEmployee = repository.getById(id);
+        return Optional.of(newEmployee);
     }
-    /**
-     * accepts the employee data in the form of EmployeePayrollDTO and stores it in DB
-     * @param - represents object of EmployeePayrollDTO class
-     * @return accepted employee information in JSON format
-     */
 
     public Employee updateDataById(Integer id, EmployeeDTO employeeDTO) {
         Employee newEmployee = new Employee(id, employeeDTO);
@@ -69,11 +56,8 @@ public class EmployeePayrollService implements IEmployeePayrollService {
         return newEmployee;
     }
 
-
     public String deleteDataById(Integer id) {
         repository.deleteById(id);
-        return "Employee with unique ID:" + id + " got deleted";
+        return null;
     }
-
-
 }

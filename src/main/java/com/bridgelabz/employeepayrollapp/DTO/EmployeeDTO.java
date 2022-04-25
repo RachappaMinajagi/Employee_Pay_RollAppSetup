@@ -1,41 +1,35 @@
 package com.bridgelabz.employeepayrollapp.DTO;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
+
 /**
  * import java.time.LocalDate;
  */
 
-import java.time.LocalDate;
-
-/**
- * create class EmployeeDTO
- */
-
 public class EmployeeDTO {
+    @Pattern(regexp = "^[A-Z]{1}[a-zA-Z\\s]{2,}$", message = "Employee firstName is Invalid")
     private String firstName;
+
+    @Pattern(regexp = "^[A-Z]{1}[a-zA-Z\\s]{2,}$", message = "Employee lastName is Invalid")
     private String lastName;
+
+    @NotEmpty(message = "ProfilePic cannot be null")
     private String profilePic;
+
+    @NotEmpty(message = "Department name cannot be null")
     private String department;
+
+    @Min(value = 500, message = "Salary should be more than 500")
     private Long salary;
     private LocalDate date;
     private String notes;
 
     public EmployeeDTO() {
-        /**
-         * The super() in Java is a reference variable that is used to refer parent class constructors.
-         * super can be used to call parent class' variables and methods.
-         */
         super();
     }
-
-    /**
-     * Create Constructor EmployeeDTO and passing the Parameter
-     * @param : firstName
-     * @param :lastName
-     * @param :profilePic
-     * @param :department
-     * @param :salary
-     * @param :date
-     * @param :notes
-     */
 
     public EmployeeDTO(String firstName, String lastName, String profilePic, String department, Long salary,
                        LocalDate date, String notes) {
@@ -49,60 +43,59 @@ public class EmployeeDTO {
         this.notes = notes;
     }
 
-    /**
-     * create method getFirstName()
-     * @return : firstname
-     */
     public String getFirstName() {
         return firstName;
     }
 
-    /**
-     * create method getlaststName()
-     * @return : getlaststname
-     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
     public String getLastName() {
         return lastName;
     }
-    /**
-     * create method getProfilePic()
-     * @return : profilePic
-     */
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
     public String getProfilePic() {
         return profilePic;
     }
-    /**
-     * create method getDepartment()
-     * @return : department
-     */
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
+    }
 
     public String getDepartment() {
         return department;
     }
 
-    /**
-     * create method getSalary()
-     * @return : department
-     */
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
     public Long getSalary() {
         return salary;
     }
 
-    /**
-     * create method getDate()
-     * @return : date
-     */
+    public void setSalary(Long salary) {
+        this.salary = salary;
+    }
+
     public LocalDate getDate() {
         return date;
     }
 
-    /**
-     * create method Notes()
-     * @return : note
-     */
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
     public String getNotes() {
         return notes;
     }
 
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
 }
