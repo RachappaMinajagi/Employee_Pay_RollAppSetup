@@ -1,5 +1,7 @@
 package com.bridgelabz.employeepayrollapp.service;
-
+/**
+ *  import all  the class
+ */
 
 import com.bridgelabz.employeepayrollapp.DTO.EmployeeDTO;
 import com.bridgelabz.employeepayrollapp.model.Employee;
@@ -32,6 +34,11 @@ public class EmployeePayrollService implements IEmployeePayrollService {
         return "Welcome to Employee Payroll App.....!";
     }
 
+    /**
+     * create method postDataToRepo()
+     * @param : represents employee id
+     * @return :newEmployee for same id
+     */
     @Override
     public Employee postDataToRepo(EmployeeDTO employee) {
         Employee newEmployee = new Employee(employee);
@@ -50,12 +57,18 @@ public class EmployeePayrollService implements IEmployeePayrollService {
         Optional<Employee> newEmployee = repository.findById(id);
         return newEmployee;
     }
+    /**
+     * accepts the employee data in the form of EmployeePayrollDTO and stores it in DB
+     * @param - represents object of EmployeePayrollDTO class
+     * @return accepted employee information in JSON format
+     */
 
     public Employee updateDataById(Integer id, EmployeeDTO employeeDTO) {
         Employee newEmployee = new Employee(id, employeeDTO);
         repository.save(newEmployee);
         return newEmployee;
     }
+
 
     public String deleteDataById(Integer id) {
         repository.deleteById(id);
