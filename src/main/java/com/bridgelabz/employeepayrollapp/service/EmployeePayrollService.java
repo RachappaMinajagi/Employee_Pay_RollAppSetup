@@ -1,18 +1,18 @@
 package com.bridgelabz.employeepayrollapp.service;
-/**
- *  import all  the class
- */
 
 import com.bridgelabz.employeepayrollapp.DTO.EmployeeDTO;
 import com.bridgelabz.employeepayrollapp.Exeption.EmployeePayrollException;
 import com.bridgelabz.employeepayrollapp.model.Employee;
 import com.bridgelabz.employeepayrollapp.repository.EmployeePayrollRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+/**
+ *  import all  the class
+ */
 
 @Service
 
@@ -24,6 +24,7 @@ public class EmployeePayrollService implements IEmployeePayrollService {
     EmployeePayrollRepository repository;
 
     public String getWelcome() {
+
         return "Welcome to Employee Payroll !!!";
     }
 
@@ -58,11 +59,20 @@ public class EmployeePayrollService implements IEmployeePayrollService {
 
     public String deleteDataById(Integer id) {
         Optional<Employee> newEmployee = repository.findById(id);
-        if (newEmployee.isPresent()) {
-            repository.deleteById(id);
-        } else {
+        if (newEmployee.isEmpty()) {
             throw new EmployeePayrollException("Employee Details not found");
+        } else {
+            repository.deleteById(id);
         }
         return null;
+    }
+
+    //Abilty to serve controller class api to retrieve data having particular department
+    public List<Employee> getDataByDepartment(String department) {
+        List<Employee> newEmp = repository.findByDepartment(department);
+        if (newEmp.isEmpty()) {
+            throw new EmployeePayrollException("Employee Not Found");
+        }
+        return newEmp;
     }
 }
