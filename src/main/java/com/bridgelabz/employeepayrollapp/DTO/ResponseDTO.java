@@ -3,30 +3,19 @@ package com.bridgelabz.employeepayrollapp.DTO;
 import lombok.Data;
 
 @Data
+/**
+ * Created ResponseDTO class to get output in form of message along with data
+ */
 public class ResponseDTO {
-    private String message;
+    private String messsage;
     private Object data;
 
-    public ResponseDTO(String message, Object data) {
+    /**
+     * create a parametrized constructor
+     */
+    public ResponseDTO(String messsage, Object data) {
         super();
-        this.message = message;
+        this.messsage = messsage;
         this.data = data;
     }
 }
-
-//    public String getMessage() {
-//        return message;
-//    }
-//
-//    public void setMesssage(String message) {
-//        this.message = message;
-//    }
-//
-//    public Object getData() {
-//        return data;
-//    }
-//
-//    public void setData(Object data) {
-//        this.data = data;
-//    }
-//}

@@ -2,6 +2,7 @@ package com.bridgelabz.employeepayrollapp.controller;
 
 import com.bridgelabz.employeepayrollapp.DTO.EmployeeDTO;
 import com.bridgelabz.employeepayrollapp.DTO.ResponseDTO;
+import com.bridgelabz.employeepayrollapp.Exeption.EmployeePayrollException;
 import com.bridgelabz.employeepayrollapp.model.Employee;
 import com.bridgelabz.employeepayrollapp.service.IEmployeePayrollService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,72 +21,91 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/employeepayrollservice")
+
+// create a class name as EmployeePayrollController
 public class EmployeePayrollController {
+
+    /**
+     * 3) @AutoMapping :-
+     *          @Autowiring feature of spring framework enables you to inject the object dependency implicitly.
+     *          It internally uses setter or constructor injection.
+     */
 
     @Autowired
     IEmployeePayrollService service;
 
-    @GetMapping("/getMessage")
-    public ResponseEntity<String> getMessage(@RequestParam String name) {
-        String message = service.getMessage(name);
-        return new ResponseEntity<String>(message, HttpStatus.OK);
-    }
-
-    @PostMapping("/postMessage")
-    public ResponseEntity<String> postMessage(@Valid @RequestBody EmployeeDTO employeeDTO) {
-        String message = service.postMessage(employeeDTO);
-        return new ResponseEntity<String>(message, HttpStatus.OK);
-    }
-
-    @PutMapping("/putMessage/{name}")
-    public ResponseEntity<String> putMessage(@PathVariable String name) {
-        String message = service.putMessage(name);
-        return new ResponseEntity<String>(message, HttpStatus.OK);
-    }
-
-    //Ability to display welcome message
-    @GetMapping("")
+    /**
+     *@GetMapping annotation maps HTTP GET requests onto specific handler methods.
+     *           It is a composed annotation that acts as a shortcut for @RequestMapping(method = RequestMethod. GET)
+     * @return :- welcome Messages
+     */
+    @GetMapping("/welcome")
     public ResponseEntity<String> getWelcome() {
         String welcome = service.getWelcome();
         return new ResponseEntity<String>(welcome, HttpStatus.OK);
     }
 
-    //Ability to save employee data to repo
+    /**
+     *   @PostMapping annotation maps HTTP POST requests onto specific handler methods.
+     *   It is a composed annotation that acts as a shortcut for @RequestMapping(method = RequestMethod. POST)
+     * @apiNote- accepts the employee data in JSON format and stores it in DB
+     * @param employeeDTO - employee data
+     * @return :- newemployee data
+     */
     @PostMapping("/create")
     public ResponseEntity<String> addDataToRepo(@Valid @RequestBody EmployeeDTO employeeDTO) {
         Employee newEmployee = service.postDataToRepo(employeeDTO);
-        ResponseDTO dto = new ResponseDTO("Record Added Succesfully", newEmployee);
-        return new ResponseEntity(dto, HttpStatus.CREATED);
+        ResponseDTO responseDTO = new ResponseDTO("Record Added Succesfully", newEmployee);
+        return new ResponseEntity(responseDTO, HttpStatus.CREATED);
     }
 
-    //Ability to get all employees' data by findAll() method
+    /**
+     * - To get all employees' data by findAll() method
+     * @return :- Display all data in DataBase
+     */
     @GetMapping("/get")
     public ResponseEntity<String> getAllDataFromRepo() {
         List<Employee> listOfEmployee = service.getAllData();
-        ResponseDTO dto = new ResponseDTO("Record Retrieved Successfully", listOfEmployee);
-        return new ResponseEntity(dto, HttpStatus.OK);
+        ResponseDTO responseDTO = new ResponseDTO("Record Retrieved Successfully", listOfEmployee);
+        return new ResponseEntity(responseDTO, HttpStatus.OK);
     }
 
-    //Ability to get employee data by id
+    /**
+     *@PathVariable is a Spring annotation which indicates that a method parameter should be bound to a URI template variable.
+     * It has the following optional elements: name - name of the path variable to bind to.
+     * required - tells whether the path variable is required.
+     * @param id - employee id
+     * @return -employee information with same empId in JSON format
+     */
     @GetMapping("/get/{id}")
-    public ResponseEntity<String> getDataFromRepoById(@PathVariable Integer id) {
-        Optional<Employee> existingEmployee = service.getDataById(id);
-        ResponseDTO dto = new ResponseDTO("Record for given ID Retrieved Successfully", existingEmployee);
-        return new ResponseEntity(dto, HttpStatus.OK);
+    public ResponseEntity<String> getDataFromRepoById(@PathVariable Integer id) throws EmployeePayrollException {
+        Employee existingEmployee = service.getDataById(id);
+        ResponseDTO responseDTO = new ResponseDTO("Record for given ID Retrieved Successfully", existingEmployee);
+        return new ResponseEntity(responseDTO, HttpStatus.OK);
     }
 
-    //Ability to update employee data for particular id
+    /**
+     *@PutMapping Annotation for mapping HTTP PUT requests onto specific handler methods.
+     *Specifically, @PutMapping is a composed annotation that acts as a shortcut for @RequestMapping(method = RequestMethod.PUT).
+     */
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateDataInRepo(@PathVariable Integer id, @Valid @RequestBody EmployeeDTO employeeDTO) {
+    public ResponseEntity<String> updateDataInRepo(@PathVariable Integer id,
+                                                   @Valid @RequestBody EmployeeDTO employeeDTO)
+            throws EmployeePayrollException {
         Employee updatedEmployee = service.updateDataById(id, employeeDTO);
-        ResponseDTO dto = new ResponseDTO("Record for particular ID Updated Successfully", updatedEmployee);
-        return new ResponseEntity(dto, HttpStatus.ACCEPTED);
+        ResponseDTO responseDTO = new ResponseDTO("Record for particular ID Updated Successfully", updatedEmployee);
+        return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
     }
 
-    //Ability to delete employee data for particular id
+    /**
+     * - Ability to delete employee data for particular id
+     * @apiNote - accepts the empId and deletes the data of that employee from DB
+     * @return -  empId and Acknowledgment message
+     */
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteDataInRepo(@PathVariable Integer id) {
-        ResponseDTO dto = new ResponseDTO("Record for particular ID Deleted Successfully", service.deleteDataById(id));
-        return new ResponseEntity(dto, HttpStatus.ACCEPTED);
+    public ResponseEntity<String> deleteDataInRepo(@PathVariable Integer id) throws EmployeePayrollException {
+        ResponseDTO responseDTO = new ResponseDTO
+                ("Record for particular ID Deleted Successfully", service.deleteDataById(id));
+        return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
     }
 }
